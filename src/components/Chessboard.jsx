@@ -3,33 +3,15 @@ import './Chessboard.css';
 
 const ChessGame = () => {
   const [board, setBoard] = useState([
-    ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-    ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+    ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'],
+    ['♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'],
     ['', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', ''],
-    ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-    ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+    ['♟︎', '♟︎', '♟︎', '♟︎', '♟︎', '♟︎', '♟︎', '♟︎'],
+    ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'],
   ]);
-
-  const whitePiecesSVGs = {
-    p: '♙',
-    r: '♖',
-    n: '♘',
-    b: '♗',
-    q: '♕',
-    k: '♔',
-    };
-
-    const blackPiecesSVGs = {
-    P: '♟︎',
-    R: '♜',
-    N: '♞',
-    B: '♝',
-    Q: '♛',
-    K: '♚',
-    };
 
   const handleMove = (fromRow, fromCol, toRow, toCol) => {
     const newBoard = [...board];
@@ -45,7 +27,7 @@ const ChessGame = () => {
         key={`${row}-${col}`}
         row={row}
         col={col}
-        piece={piece !== '' ? whitePiecesSVGs[piece] || blackPiecesSVGs[piece] : ''}
+        piece={piece}
         onMove={handleMove}
       />
     );
@@ -75,27 +57,27 @@ const ChessGame = () => {
 const getPossibleMoves = (row, col, piece) => {
     const possibleMoves = [];
     switch (piece) {
-        case 'p':
+        case '♙':
             possibleMoves.push([row + 1, col]);
             if (row === 1) {
                 possibleMoves.push([row + 2, col]);
             }
             break;
-        case 'P':
+        case '♟︎':
             possibleMoves.push([row - 1, col]);
             if (row === 6) {
                 possibleMoves.push([row - 2, col]);
             }
             break;
-        case 'r':
-        case 'R':
+        case '♖':
+        case '♜':
             for (let i = 0; i < 8; i++) {
                 possibleMoves.push([row, i]);
                 possibleMoves.push([i, col]);
             }
             break;
-        case 'n':
-        case 'N':
+        case '♘':
+        case '♞':
             possibleMoves.push([row + 2, col + 1]);
             possibleMoves.push([row + 2, col - 1]);
             possibleMoves.push([row - 2, col + 1]);
@@ -105,8 +87,8 @@ const getPossibleMoves = (row, col, piece) => {
             possibleMoves.push([row - 1, col + 2]);
             possibleMoves.push([row - 1, col - 2]);
             break;
-        case 'b':
-        case 'B':
+        case '♗':
+        case '♝':
             for (let i = 0; i < 8; i++) {
                 possibleMoves.push([row + i, col + i]);
                 possibleMoves.push([row + i, col - i]);
@@ -114,8 +96,8 @@ const getPossibleMoves = (row, col, piece) => {
                 possibleMoves.push([row - i, col - i]);
             }
             break;
-        case 'q':
-        case 'Q':
+        case '♕':
+        case '♛':
             for (let i = 0; i < 8; i++) {
                 possibleMoves.push([row, i]);
                 possibleMoves.push([i, col]);
@@ -125,8 +107,8 @@ const getPossibleMoves = (row, col, piece) => {
                 possibleMoves.push([row - i, col - i]);
             }
             break;
-        case 'k':
-        case 'K':
+        case '♔':
+        case '♚':
             possibleMoves.push([row + 1, col]);
             possibleMoves.push([row - 1, col]);
             possibleMoves.push([row, col + 1]);
