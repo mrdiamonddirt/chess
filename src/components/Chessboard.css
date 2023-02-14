@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .board {
@@ -18,11 +18,14 @@
 .board-row:nth-child(odd) .square:nth-child(odd),
 .board-row:nth-child(even) .square:nth-child(even) {
   background-color: #444444;
+  border: 1px solid black;
 }
 
 .board-row:nth-child(odd) .square:nth-child(even),
 .board-row:nth-child(even) .square:nth-child(odd) {
   background-color: #b8b8b8;
+  border: 1px solid black;
+
 }
 
 .square {

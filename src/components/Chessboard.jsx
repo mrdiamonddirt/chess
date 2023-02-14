@@ -13,6 +13,12 @@ const ChessGame = () => {
     ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'],
   ]);
 
+// handle the players turns
+    const [player, setPlayer] = useState('white');
+    const [selectedSquare, setSelectedSquare] = useState(null);
+    const [squareSelected, setSquareSelected] = useState(false);
+
+//   handle move of a piece
   const handleMove = (fromRow, fromCol, toRow, toCol) => {
     const newBoard = [...board];
     newBoard[toRow][toCol] = newBoard[fromRow][fromCol];
@@ -20,6 +26,7 @@ const ChessGame = () => {
     setBoard(newBoard);
   };
 
+//   render a square
   const renderSquare = (row, col) => {
     const piece = board[row][col];
     return (
@@ -33,6 +40,7 @@ const ChessGame = () => {
     );
   };
 
+//   render a row of squares
   const renderRow = (row) => {
     return (
       <div className="board-row" key={`row-${row}`}>
@@ -43,6 +51,7 @@ const ChessGame = () => {
     );
   };
 
+//   render the board
   return (
     <div className="chess-game">
       <div className="board">
@@ -53,6 +62,8 @@ const ChessGame = () => {
     </div>
   );
 };
+
+// function to get possible moves for a piece
 
 const getPossibleMoves = (row, col, piece) => {
     const possibleMoves = [];
@@ -127,28 +138,70 @@ const getPossibleMoves = (row, col, piece) => {
     });
 };
 
+// function to highlight the squares that are possible moves
+const highlightSquares = (possibleMoves) => {
+    for (let i = 0; i < possibleMoves.length; i++) {
+        const [row, col] = possibleMoves[i];
+        document.getElementsByClassName("board-row")[row].children[col].style.backgroundColor = "orange";
+    }
+}
 
-const Square = ({ row, col, piece, onMove }) => {
-  const handleClick = () => {
-    // show possible moves for the piece
-    // if the user clicks on a possible move, move the piece
-    // if the user clicks on a square with a piece, show possible moves for that piece
-    if (piece) {
-      const possibleMoves = getPossibleMoves(row, col, piece);
-    //   for each possilble move change the color of the square to orange
-    //   console.log(possibleMoves);
+// function to unhighlight the squares that are possible moves
+const unhighlightSquares = (possibleMoves) => {
+    for (let i = 0; i < possibleMoves.length; i++) {
+        const [row, col] = possibleMoves[i];
+        document.getElementsByClassName("board-row")[row].children[col].style.backgroundColor = "white";
+    }
+}
+
+// function to get the row and column of the selected square
+const getRowAndColumn = (row, col) => {
+    console.log('row and column', row, col);
+    document.getElementsByClassName("board-row")[row].children[col].style.border = "1px solid red";
+}
+
+// function to get the piece that is selected
+const getPiece = (piece) => {
+    console.log('piece selected', piece);
+}
+
+// function to get the possible moves for the selected piece
+const getPossibleMovesForPiece = (row, col, piece) => {
+    const possibleMoves = getPossibleMoves(row, col, piece);
+    console.log('possible moves', possibleMoves);
     possibleMoves.forEach(possibleMoves => {
-      console.log(possibleMoves);
+    //   console.log('moves', possibleMoves[0], possibleMoves[1]);
         // convert the possbile moves to the rows and columns
         var row = possibleMoves[0];
         var col = possibleMoves[1];
-        console.log(document.getElementsByClassName("board-row")[row].children[col]);
-        document.getElementsByClassName("board-row")[row].children[col].style.backgroundColor = "orange";
-        // reset the color of the squares after 2 seconds
-
+        // console.log(document.getElementsByClassName("board-row")[row].children[col]);
+        document.getElementsByClassName("board-row")[row].children[col].style.border = "1px solid orange";
+        // reset the color of the squares if selected a different piece
     });
-    }
+    return possibleMoves;
+}
 
+
+
+const Square = ({ row, col, piece, onMove }) => {
+  const handleClick = (event, selectedSquare) => {
+    getRowAndColumn(row, col);
+    getPiece(piece);
+    selectedSquare = [row, col];
+    console.log('selected square', selectedSquare);
+    // console.log(event.target);
+    if (piece) {
+    console.log('piece selected', piece);
+    //   get the selected square and add it to the moves component
+    //   get the row and column of the selected square
+    
+    
+    getPossibleMovesForPiece(row, col, piece);
+    } else {
+      console.log('empty');
+    //   reset any highlighted squares
+    document.getElementsByClassName("board-row")[row].children[col].style.border = "1px solid black";
+    }
   };
 
   return (
